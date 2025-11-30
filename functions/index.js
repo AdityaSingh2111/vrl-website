@@ -3,32 +3,29 @@ const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const axios = require("axios");
 const Razorpay = require("razorpay");
-const cors = require("cors")({ origin: true });
 require("dotenv").config();
 
 if (!admin.apps.length) {
   admin.initializeApp();
 }
 
-// --- HELPER TO GET KEYS (Supports both .env and Firebase Config) ---
+// --- HELPER TO GET KEYS ---
 const getEnv = (key, configGroup, configKey) => {
-  // 1. Try process.env (Local .env file)
   if (process.env[key]) return process.env[key];
-  // 2. Try functions.config() (Production Firebase Config)
   if (functions.config()[configGroup] && functions.config()[configGroup][configKey]) {
     return functions.config()[configGroup][configKey];
   }
-  return null; // Return null if missing
+  return null;
 };
 
 // --- CONFIGURATION ---
-const GMAIL_USER = process.env.GMAIL_USER;
-const GMAIL_PASS = process.env.GMAIL_PASS;
-const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY;
-const MSG91_FLOW_ID = process.env.MSG91_FLOW_ID;
+const GMAIL_USER = getEnv("GMAIL_USER", "email", "user");
+const GMAIL_PASS = getEnv("GMAIL_PASS", "email", "pass");
+const MSG91_AUTH_KEY = getEnv("MSG91_AUTH_KEY", "msg91", "auth_key");
+const MSG91_FLOW_ID = getEnv("MSG91_FLOW_ID", "msg91", "flow_id");
 const RAZOR_KEY = getEnv("RAZORPAY_KEY_ID", "razorpay", "key_id");
 const RAZOR_SECRET = getEnv("RAZORPAY_KEY_SECRET", "razorpay", "key_secret");
-const ADMIN_PHONE = process.env.ADMIN_PHONE;
+const ADMIN_PHONE = "919876543210"; 
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
@@ -39,20 +36,68 @@ const razorpay = new Razorpay({
 // Email Transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
-  auth: {
-    user: GMAIL_USER,
-    pass: GMAIL_PASS,
-  },
+  auth: { user: GMAIL_USER, pass: GMAIL_PASS },
 });
 
 /**
- * 1. Cloud Function: sendQuoteNotifications
- * Triggers Email + MSG91 SMS for new leads
+ * 1. Cloud Function: createRazorpayOrder
+ */
+exports.createRazorpayOrder = functions.https.onCall(async (data, context) => {
+  console.log("👉 Payment Request Data:", data); // Check logs for this
+
+  // 1. Validate Keys
+  if (!RAZOR_KEY || !RAZOR_SECRET) {
+    console.error("ERROR: Razorpay Keys Missing");
+    throw new functions.https.HttpsError('internal', 'Server Config Error: Missing Payment Keys');
+  }
+
+  // 2. Validate Data Object
+  if (!data || !data.amount) {
+    console.error("ERROR: Amount is missing in request");
+    throw new functions.https.HttpsError('invalid-argument', 'Amount is required');
+  }
+
+  // 3. Process Amount (Handle decimals safely)
+  // Razorpay expects amount in 'paise' (Integer). 
+  // Use Math.round to avoid floating point errors (e.g. 100.50 * 100 = 10050)
+  const amountInPaise = Math.round(Number(data.amount) * 100);
+
+  console.log("👉 Processed Amount (Paise):", amountInPaise);
+
+  if (isNaN(amountInPaise) || amountInPaise < 100) {
+    throw new functions.https.HttpsError('invalid-argument', 'Amount must be at least INR 1.00');
+  }
+  
+  const options = {
+    amount: amountInPaise,
+    currency: "INR",
+    receipt: `receipt_${Date.now()}`,
+    payment_capture: 1 
+  };
+
+  try {
+    const order = await razorpay.orders.create(options);
+    console.log("✅ Order Created:", order.id);
+    
+    return {
+      id: order.id,
+      currency: order.currency,
+      amount: order.amount,
+      key_id: RAZOR_KEY
+    };
+  } catch (error) {
+    console.error("❌ Razorpay API Error:", error);
+    throw new functions.https.HttpsError('internal', 'Razorpay API Failed: ' + error.message);
+  }
+});
+
+/**
+ * 2. Cloud Function: sendQuoteNotifications
+ * (Your existing notification logic remains here)
  */
 exports.sendQuoteNotifications = functions.https.onCall(async (data, context) => {
   const { name, phone, whatsappNumber, from, to, service, carModel, bikeModel, notes } = data;
 
-  // Email Logic
   const emailPromise = transporter.sendMail({
     from: `"VRL Website" <${GMAIL_USER}>`,
     to: GMAIL_USER,
@@ -71,7 +116,6 @@ exports.sendQuoteNotifications = functions.https.onCall(async (data, context) =>
     `,
   });
 
-  // SMS Logic (Msg91)
   const msg91Payload = {
     template_id: MSG91_FLOW_ID,
     sender: process.env.MSG91_SENDER_ID || "VRLLOG",
@@ -85,12 +129,7 @@ exports.sendQuoteNotifications = functions.https.onCall(async (data, context) =>
   const smsPromise = axios.post(
     "https://control.msg91.com/api/v5/flow/",
     msg91Payload,
-    {
-      headers: {
-        "authkey": MSG91_AUTH_KEY,
-        "Content-Type": "application/json",
-      },
-    }
+    { headers: { "authkey": MSG91_AUTH_KEY, "Content-Type": "application/json" } }
   );
 
   try {
@@ -101,54 +140,3 @@ exports.sendQuoteNotifications = functions.https.onCall(async (data, context) =>
     return { success: false, error: "Failed to send notifications" };
   }
 });
-
-/**
- * Cloud Function: createRazorpayOrder
- */
-exports.createRazorpayOrder = functions.https.onCall(async (data) => {
-
-  console.log("👉 DATA RECEIVED:", data);
-  console.log("👉 KEY ID EXISTS:", !!RAZOR_KEY);
-  console.log("👉 SECRET EXISTS:", !!RAZOR_SECRET);
-
-  if (!RAZOR_KEY || !RAZOR_SECRET) {
-    throw new functions.https.HttpsError(
-      "internal",
-      "Razorpay credentials missing"
-    );
-  }
-
-  const rawAmount = Number(data.amount);
-  console.log("👉 RAW AMOUNT:", rawAmount);
-
-  if (!rawAmount || rawAmount <= 0) {
-    throw new functions.https.HttpsError(
-      "invalid-argument",
-      "Invalid amount sent"
-    );
-  }
-
-  try {
-
-    const order = await razorpay.orders.create({
-      amount: Math.round(rawAmount * 100),
-      currency: "INR",
-      receipt: "order_" + Date.now(),
-    });
-
-    console.log("✅ ORDER CREATED:", order.id);
-
-    return {
-      id: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      key_id: RAZOR_KEY,
-    };
-
-  } catch (e) {
-    console.error("❌ RAZORPAY FAIL:", e);
-    throw new functions.https.HttpsError("internal", e.message);
-  }
-
-});
-
