@@ -28,6 +28,14 @@ export default function Payment() {
 
   const handlePayment = async (e) => {
     e.preventDefault();
+    
+    // Validation: Ensure amount is valid
+    const payAmount = parseFloat(formData.amount);
+    if (!payAmount || payAmount <= 0) {
+      alert("Please enter a valid amount greater than 0.");
+      return;
+    }
+
     setLoading(true);
 
     // 1. Load Script
@@ -41,7 +49,15 @@ export default function Payment() {
     try {
       // 2. Create Order on Backend
       const createOrderFn = httpsCallable(functions, 'createRazorpayOrder');
-      const response = await createOrderFn({ amount: formData.amount });
+      
+      // Explicitly pass amount as a number
+      const response = await createOrderFn({ amount: payAmount });
+      
+      // Validate response
+      if (!response || !response.data) {
+        throw new Error("Invalid response from server");
+      }
+
       const { id: order_id, currency, amount } = response.data;
 
       // 3. Open Razorpay Options
@@ -70,7 +86,6 @@ export default function Payment() {
       };
 
       const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
       
       // Handle payment window close without payment
       paymentObject.on('payment.failed', function (response){
@@ -78,9 +93,12 @@ export default function Payment() {
         setLoading(false);
       });
 
+      paymentObject.open();
+
     } catch (error) {
-      console.error(error);
-      alert("Payment initiation failed. Try again.");
+      console.error("Payment Flow Error:", error);
+      // Show the actual error message to help debugging
+      alert(`Payment initiation failed: ${error.message || "Unknown error"}. Check console for details.`);
       setLoading(false);
     }
   };
