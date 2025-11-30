@@ -51,7 +51,11 @@ export default function Payment() {
       const createOrderFn = httpsCallable(functions, 'createRazorpayOrder');
       
       // Explicitly pass amount as a number
-      const response = await createOrderFn({ amount: payAmount });
+      const response = await createOrderFn({
+  amount: Number(payAmount)
+});
+
+
       
       // Validate response
       if (!response || !response.data) {
@@ -65,7 +69,7 @@ export default function Payment() {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Frontend Public Key
         amount: amount,
         currency: currency,
-        name: "VRL Logistic Packers & Movers",
+        name: "VRL Logistics Packers & Movers",
         description: formData.purpose,
         order_id: order_id,
         handler: function (response) {

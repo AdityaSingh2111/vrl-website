@@ -10,17 +10,30 @@ if (!admin.apps.length) {
   admin.initializeApp();
 }
 
+// --- HELPER TO GET KEYS (Supports both .env and Firebase Config) ---
+const getEnv = (key, configGroup, configKey) => {
+  // 1. Try process.env (Local .env file)
+  if (process.env[key]) return process.env[key];
+  // 2. Try functions.config() (Production Firebase Config)
+  if (functions.config()[configGroup] && functions.config()[configGroup][configKey]) {
+    return functions.config()[configGroup][configKey];
+  }
+  return null; // Return null if missing
+};
+
 // --- CONFIGURATION ---
 const GMAIL_USER = process.env.GMAIL_USER;
 const GMAIL_PASS = process.env.GMAIL_PASS;
 const MSG91_AUTH_KEY = process.env.MSG91_AUTH_KEY;
 const MSG91_FLOW_ID = process.env.MSG91_FLOW_ID;
+const RAZOR_KEY = getEnv("RAZORPAY_KEY_ID", "razorpay", "key_id");
+const RAZOR_SECRET = getEnv("RAZORPAY_KEY_SECRET", "razorpay", "key_secret");
 const ADMIN_PHONE = process.env.ADMIN_PHONE;
 
 // Initialize Razorpay
 const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: RAZOR_KEY,
+  key_secret: RAZOR_SECRET,
 });
 
 // Email Transporter
@@ -90,28 +103,39 @@ exports.sendQuoteNotifications = functions.https.onCall(async (data, context) =>
 });
 
 /**
- * 2. Cloud Function: createRazorpayOrder
- * Generates a secure order ID for payments
+ * Cloud Function: createRazorpayOrder
  */
-exports.createRazorpayOrder = functions.https.onCall(async (data, context) => {
-  const amount = parseInt(data.amount) * 100; // Convert Rupee to Paise
-  
-  const options = {
-    amount: amount,
-    currency: "INR",
-    receipt: `receipt_${Date.now()}`,
-    payment_capture: 1 // Auto capture
-  };
+exports.createRazorpayOrder = functions.https.onCall(async (data) => {
+
+  console.log("Payload Received:", JSON.stringify(data));
+
+  const rawAmount = Number(data.amount);
+
+  if (!rawAmount || isNaN(rawAmount) || rawAmount <= 0) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Invalid or missing amount'
+    );
+  }
+
+  const amount = Math.round(rawAmount * 100);
 
   try {
-    const order = await razorpay.orders.create(options);
+    const order = await razorpay.orders.create({
+      amount,
+      currency: "INR",
+      receipt: "order_" + Date.now()
+    });
+
     return {
       id: order.id,
       currency: order.currency,
-      amount: order.amount
+      amount: order.amount,
+      key_id: RAZOR_KEY
     };
+
   } catch (error) {
-    console.error("Razorpay Error:", error);
-    throw new functions.https.HttpsError('internal', 'Unable to create order');
+    console.error("Razorpay Create Error:", error);
+    throw new functions.https.HttpsError("internal", error.message);
   }
 });
