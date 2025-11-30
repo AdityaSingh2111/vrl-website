@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useNavigate } from 'react-router-dom';
-import { FaTruckMoving, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaTruckMoving, FaLock, FaEnvelope, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -33,6 +34,14 @@ export default function Login() {
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-1/2 bg-primary transform -skew-y-6 origin-top-left translate-y-[-20%] z-0"></div>
       
+      {/* Back to Home Button */}
+      <button 
+        onClick={() => navigate('/')}
+        className="absolute top-6 left-6 z-20 flex items-center gap-2 text-white/80 hover:text-white font-bold transition-all hover:-translate-x-1"
+      >
+        <FaArrowLeft /> Back to Website
+      </button>
+
       <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
