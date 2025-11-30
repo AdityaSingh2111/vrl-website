@@ -107,35 +107,48 @@ exports.sendQuoteNotifications = functions.https.onCall(async (data, context) =>
  */
 exports.createRazorpayOrder = functions.https.onCall(async (data) => {
 
-  console.log("Payload Received:", JSON.stringify(data));
+  console.log("👉 DATA RECEIVED:", data);
+  console.log("👉 KEY ID EXISTS:", !!RAZOR_KEY);
+  console.log("👉 SECRET EXISTS:", !!RAZOR_SECRET);
 
-  const rawAmount = Number(data.amount);
-
-  if (!rawAmount || isNaN(rawAmount) || rawAmount <= 0) {
+  if (!RAZOR_KEY || !RAZOR_SECRET) {
     throw new functions.https.HttpsError(
-      'invalid-argument',
-      'Invalid or missing amount'
+      "internal",
+      "Razorpay credentials missing"
     );
   }
 
-  const amount = Math.round(rawAmount * 100);
+  const rawAmount = Number(data.amount);
+  console.log("👉 RAW AMOUNT:", rawAmount);
+
+  if (!rawAmount || rawAmount <= 0) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Invalid amount sent"
+    );
+  }
 
   try {
+
     const order = await razorpay.orders.create({
-      amount,
+      amount: Math.round(rawAmount * 100),
       currency: "INR",
-      receipt: "order_" + Date.now()
+      receipt: "order_" + Date.now(),
     });
+
+    console.log("✅ ORDER CREATED:", order.id);
 
     return {
       id: order.id,
-      currency: order.currency,
       amount: order.amount,
-      key_id: RAZOR_KEY
+      currency: order.currency,
+      key_id: RAZOR_KEY,
     };
 
-  } catch (error) {
-    console.error("Razorpay Create Error:", error);
-    throw new functions.https.HttpsError("internal", error.message);
+  } catch (e) {
+    console.error("❌ RAZORPAY FAIL:", e);
+    throw new functions.https.HttpsError("internal", e.message);
   }
+
 });
+
