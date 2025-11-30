@@ -1,0 +1,12 @@
+/* Import Tailwind's base layer, which includes preflight styles (reset) */
+@tailwind base;
+
+/* Import Tailwind's component layer, including utility classes */
+@tailwind components;
+
+/* Import Tailwind's utilities layer for all styling classes (e.g., flex, bg-blue-500) */
+@tailwind utilities;
+
+/* * You can add any global custom CSS styles below this line if needed.
+ * But for now, these three lines are CRITICAL for Tailwind to work.
+*/
