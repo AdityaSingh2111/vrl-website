@@ -420,12 +420,12 @@ export default function Home() {
                 Limca Book of Records Holder
               </h3>
               <p className="text-gray-600 text-lg leading-relaxed">
-                VRL Logistics Ltd holds a distinct place in the <span className="font-bold text-dark">Limca Book of Records</span> for being the largest fleet owner of commercial vehicles in India in the private sector.
+                VRL Logistics Ltd holds a distinct place in the <span className="font-bold text-dark">Limca Book of Records</span> for being the largest fleet owner of commercial vehicles in India in the proprietorship sector.
               </p>
               
               <div className="bg-gray-50 border-l-4 border-primary p-6 rounded-r-xl">
                 <p className="text-sm text-gray-500 uppercase tracking-widest font-bold mb-1">Current Fleet Strength</p>
-                <p className="text-4xl font-black text-gray-900">5,777+ <span className="text-lg font-medium text-gray-500">Vehicles</span></p>
+                <p className="text-4xl font-black text-gray-900">3,450+ <span className="text-lg font-medium text-gray-500">Vehicles</span></p>
               </div>
             </motion.div>
           </div>

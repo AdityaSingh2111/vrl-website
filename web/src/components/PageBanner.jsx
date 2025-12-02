@@ -18,10 +18,10 @@ export default function PageBanner({ title, subtitle, breadcrumb }) {
         {/* Overlay Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
           <h1 className="text-3xl md:text-5xl font-black text-white drop-shadow-2xl uppercase tracking-wide mb-4 leading-tight">
-            Currently the Largest Fleet Owner of India
+            Currently Among the Largest Fleet Owner of India
           </h1>
           <div className="inline-block bg-secondary/95 backdrop-blur-md px-6 py-2 rounded-lg text-dark font-extrabold text-sm md:text-lg tracking-wider uppercase shadow-lg border border-yellow-500/50">
-            [ 6,177 Owned Goods Transport Vehicles ]
+            [ Multiple Owned Goods Transport Vehicles ]
           </div>
         </div>
       </div>
