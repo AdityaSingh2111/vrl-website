@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom'; // Import useLocation
 import { db } from '../lib/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FaSearch, FaTruck, FaMapMarkerAlt, FaCalendarCheck, FaCar, FaMotorcycle, FaUserCircle, FaIdCard } from 'react-icons/fa';
@@ -11,6 +12,46 @@ export default function Tracking() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const mapRef = useRef(null);
+  
+  const location = useLocation(); // Hook to get nav state
+
+  // --- AUTO-TRACK ON LOAD (If ID passed) ---
+  useEffect(() => {
+    if (location.state && location.state.id) {
+      setTrackId(location.state.id);
+      // Trigger search automatically
+      performSearch(location.state.id);
+    }
+  }, [location]);
+
+  // Refactored search logic into a reusable function
+  const performSearch = async (id) => {
+    if(!id.trim()) return;
+    
+    setLoading(true);
+    setError('');
+    setResult(null);
+
+    try {
+      const q = query(collection(db, "consignments"), where("trackingId", "==", id.trim()));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        setResult(querySnapshot.docs[0].data());
+      } else {
+        setError("Invalid Tracking ID. Please check your receipt.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("System error. Please try again later.");
+    }
+    setLoading(false);
+  };
+
+  const handleTrack = (e) => {
+    e.preventDefault();
+    performSearch(trackId);
+  };
 
   // --- GOOGLE MAPS LOGIC ---
   useEffect(() => {
@@ -51,30 +92,6 @@ export default function Tracking() {
     }
   }, [result]);
 
-  const handleTrack = async (e) => {
-    e.preventDefault();
-    if(!trackId.trim()) return;
-    
-    setLoading(true);
-    setError('');
-    setResult(null);
-
-    try {
-      const q = query(collection(db, "consignments"), where("trackingId", "==", trackId.trim()));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        setResult(querySnapshot.docs[0].data());
-      } else {
-        setError("Invalid Tracking ID. Please check your receipt.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("System error. Please try again later.");
-    }
-    setLoading(false);
-  };
-
   return (
     <>
       <Helmet>
@@ -86,9 +103,9 @@ export default function Tracking() {
         {/* --- SEARCH HEADER --- */}
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-black text-dark mb-4">
-            Consignment <span className="text-primary">Tracking</span>
+            Live <span className="text-primary">Tracking</span>
           </h1>
-          <p className="text-gray-500 mb-8">Enter your Consignment No. to see current location.</p>
+          <p className="text-gray-500 mb-8">Enter your Consignment No. to see real-time location.</p>
 
           <form onSubmit={handleTrack} className="relative max-w-lg mx-auto">
             <input 
