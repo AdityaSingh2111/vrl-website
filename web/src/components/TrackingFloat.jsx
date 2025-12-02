@@ -77,7 +77,7 @@ export default function TrackingFloat() {
                   className="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all uppercase placeholder-gray-400"
                   value={trackId}
                   onChange={(e) => setTrackId(e.target.value)}
-                  autoFocus
+                  // removed autoFocus prop here
                 />
                 <button 
                   type="submit"
