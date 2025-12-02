@@ -168,7 +168,7 @@ export default function Navbar() {
           </div>
 
           {/* Divider */}
-          <div className="h-6 w-px bg-gray-200"></div>
+          {/* <div className="h-6 w-px bg-gray-200"></div> */}
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3">
@@ -318,7 +318,7 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              <Link to="/track" onClick={closeMenu} className="p-3.5 font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-sm">Tracking</Link>
+              {/* <Link to="/track" onClick={closeMenu} className="p-3.5 font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-sm">Tracking</Link> */}
               <Link to="/gallery" onClick={closeMenu} className="p-3.5 font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-sm">Gallery</Link>
 
               {/* Mobile Contact Accordion */}
