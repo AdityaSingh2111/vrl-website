@@ -107,7 +107,7 @@ export default function Footer() {
                 <div>
                   <span className="block text-xs font-bold text-gray-500 uppercase mb-1">Head Office</span>
                   <p className="text-sm text-gray-300 leading-snug">
-                    Giriraj Annexe, Circuit House Road,<br/>Hubballi, Karnataka 580029
+                    5, 2nd cross, Hsr Layout, 8th sector<br/>Bommanahalli, Bengaluru - 560 068, Karnataka
                   </p>
                 </div>
               </li>

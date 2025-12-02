@@ -112,10 +112,10 @@ export default function Home() {
     "email": "info@vrllogistics.co.in",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Giriraj Annexe, Circuit House Road",
-      "addressLocality": "Hubballi",
+      "streetAddress": "35, 2nd cross, Hsr Layout, 8th sector, Bommanahalli",
+      "addressLocality": "Bengaluru",
       "addressRegion": "Karnataka",
-      "postalCode": "580029",
+      "postalCode": "560068",
       "addressCountry": "IN"
     },
     "priceRange": "₹₹",

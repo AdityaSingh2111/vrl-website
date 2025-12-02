@@ -68,9 +68,9 @@ export default function Contact() {
               <div>
                 <h3 className="font-bold text-lg text-gray-800">Head Office</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
-                  VRL Logistics Ltd.<br/>
-                  Giriraj Annexe, Circuit House Road,<br/>
-                  Hubballi, Karnataka 580029
+                  VRL Logistics Packers and Movers<br/>
+                  35, 2nd cross, Hsr Layout, 8th sector, Bommanahalli<br/>
+                  Bengaluru, Karnataka 560068
                 </p>
               </div>
             </div>
