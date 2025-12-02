@@ -77,7 +77,7 @@ export default function Navbar() {
             <FaPhoneAlt className="text-secondary" /> +91 73387 95585
           </span>
           <span className="w-px h-3 bg-gray-300"></span>
-          <span className="hover:text-primary transition-colors cursor-pointer">admin@vrllogistic.com</span>
+          <span className="hover:text-primary transition-colors cursor-pointer">info@vrllogistics.co.in</span>
         </div>
       </div>
 

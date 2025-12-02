@@ -33,7 +33,7 @@ export default function TrackingFloat() {
     { 
       label: "Mail Us", 
       icon: FaEnvelope, 
-      action: "mailto:admin@vrllogistic.com", 
+      action: "mailto:info@vrllogistics.co.in", 
       color: "bg-red-500",
       target: "_self"
     },

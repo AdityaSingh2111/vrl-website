@@ -128,8 +128,8 @@ export default function Footer() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Support</span>
-                  <a href="mailto:admin@vrllogistic.com" className="text-sm text-gray-300 hover:text-white transition-colors">
-                    admin@vrllogistic.com
+                  <a href="mailto:info@vrllogistics.co.in" className="text-sm text-gray-300 hover:text-white transition-colors">
+                    info@vrllogistics.co.in
                   </a>
                 </div>
               </li>

@@ -290,7 +290,7 @@ export default function Payment() {
                <div className="mt-6 bg-[#ecfdf5] border border-[#d1fae5] p-3 rounded-lg flex gap-3 items-start">
                   <FaCheckCircle className="text-[#059669] text-lg mt-0.5 shrink-0" />
                   <p className="text-xs text-[#065f46] font-medium leading-relaxed">
-                    Payment status is success. In case of any issue, you may contact your bank or our support team at <span className="font-bold underline">admin@vrllogistic.com</span>.
+                    Payment status is success. In case of any issue, you may contact your bank or our support team at <span className="font-bold underline">info@vrllogistics.co.in</span>.
                   </p>
                </div>
             </div>

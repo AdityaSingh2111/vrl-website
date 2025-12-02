@@ -109,7 +109,7 @@ export default function Home() {
     "name": "VRL Logistic Packers & Movers",
     "image": "https://images.unsplash.com/photo-1586155638764-bf045442f6f3",
     "telephone": "+917338795585",
-    "email": "admin@vrllogistic.com",
+    "email": "info@vrllogistics.co.in",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Giriraj Annexe, Circuit House Road",

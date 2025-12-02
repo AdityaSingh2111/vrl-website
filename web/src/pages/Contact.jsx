@@ -35,8 +35,8 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-bold text-lg text-gray-800">Email Us</h3>
-                <p className="text-gray-600 text-sm break-all">admin@vrllogistic.com</p>
-                <p className="text-gray-600 text-sm break-all">support@vrllogistic.com</p>
+                <p className="text-gray-600 text-sm break-all">info@vrllogistics.co.in</p>
+                <p className="text-gray-600 text-sm break-all">support@vrllogistics.co.in</p>
                 <p className="text-gray-400 text-xs mt-1">Response within 2 hours</p>
               </div>
             </div>

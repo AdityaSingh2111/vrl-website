@@ -55,7 +55,7 @@ export default function PrivacyPolicy() {
 
           <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Contact Us</h3>
           <p>
-            If you have any questions about this Privacy Policy, please contact us at <a href="mailto:admin@vrllogistic.com" className="text-primary hover:underline">admin@vrllogistic.com</a>.
+            If you have any questions about this Privacy Policy, please contact us at <a href="mailto:info@vrllogistics.co.in" className="text-primary hover:underline">info@vrllogistics.co.in</a>.
           </p>
         </div>
       </div>
