@@ -197,7 +197,7 @@ export default function Navbar() {
                     <div className="bg-red-100 text-red-600 p-2 rounded-full">
                       <FaUserShield size={14} />
                     </div>
-                    Admin Console
+                    Admin Login
                   </Link>
 
                   {/* Webmail */}
@@ -361,7 +361,7 @@ export default function Navbar() {
               
               {/* Mobile Admin Login */}
               <Link to="/login" onClick={closeMenu} className="flex items-center justify-center gap-2 p-3.5 font-bold text-gray-500 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-xs uppercase tracking-widest border border-gray-100">
-                <FaUserShield className="text-lg" /> Admin Console
+                <FaUserShield className="text-lg" /> Admin Login
               </Link>
 
               {/* Mobile Webmail Login */}

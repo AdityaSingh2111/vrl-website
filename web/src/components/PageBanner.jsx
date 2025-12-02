@@ -21,7 +21,7 @@ export default function PageBanner({ title, subtitle, breadcrumb }) {
             Currently Among the Largest Fleet Owner of India
           </h1>
           <div className="inline-block bg-secondary/95 backdrop-blur-md px-6 py-2 rounded-lg text-dark font-extrabold text-sm md:text-lg tracking-wider uppercase shadow-lg border border-yellow-500/50">
-            [ Multiple Owned Goods Transport Vehicles ]
+            [ 3450+ Owned Goods Transport Vehicles ]
           </div>
         </div>
       </div>
