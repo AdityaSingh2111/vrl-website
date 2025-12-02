@@ -202,8 +202,8 @@ export default function Navbar() {
 
                   {/* Webmail */}
                   <a 
-                    href="https://webmail.vrllogistic.com"
-                    target="_blank"
+                    href="/webmail"
+                    //target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-yellow-50 hover:text-yellow-600 rounded-lg transition-all"
                   >
@@ -366,8 +366,8 @@ export default function Navbar() {
 
               {/* Mobile Webmail Login */}
               <a 
-                href="https://webmail.vrllogistic.com"
-                target="_blank"
+                href="/webmail"
+                //target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeMenu}
                 className="flex items-center justify-center gap-2 p-3.5 font-bold text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-xl transition-colors text-xs uppercase tracking-widest border border-gray-100"
