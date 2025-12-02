@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import PublicTracking from './pages/Tracking'; 
 import Login from './admin/Login'; 
 import Payment from './pages/Payment';
+import TrackingFloat from './components/TrackingFloat';
 
 // Content Pages
 import Services from './pages/Services';
@@ -55,7 +56,7 @@ const PublicLayout = () => (
     <main className="flex-grow pt-16">
       <Outlet />
     </main>
-    <Chatbot />
+    <TrackingFloat />
     <Footer />
   </div>
 );
