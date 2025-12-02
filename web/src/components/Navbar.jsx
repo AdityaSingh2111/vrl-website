@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaTruckMoving, FaBars, FaTimes, FaPhoneAlt, FaUserCircle, FaCaretDown, FaChevronDown, FaChevronUp, FaCreditCard, FaUser, FaUserShield, FaEnvelopeOpenText } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPhoneAlt, FaUserCircle, FaCaretDown, FaChevronDown, FaChevronUp, FaCreditCard, FaUser, FaUserShield, FaEnvelopeOpenText } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Navbar() {
@@ -25,20 +25,20 @@ export default function Navbar() {
   };
 
   const services = [
-    { name: "Car Transportation",   path: "/services/car-transportation"   },
-    { name: "Bike Transportation",  path: "/services/bike-transportation"  },
-    { name: "Household Shifting",   path: "/services/household-shifting"   },
-    { name: "Office Shifting",      path: "/services/office-shifting"      },
-    { name: "Commercial Shifting",  path: "/services/commercial-shifting"  },
-    { name: "Pet Relocation",       path: "/services/pet-relocation"       },
-    { name: "Warehouse & Storage",  path: "/services/warehouse-storage"    },
-    { name: "Loading & Unloading",  path: "/services/loading-unloading"    }
+    { name: "Car Transportation", path: "/services/car-transportation" },
+    { name: "Bike Transportation", path: "/services/bike-transportation" },
+    { name: "Household Shifting", path: "/services/household-shifting" },
+    { name: "Office Shifting", path: "/services/office-shifting" },
+    { name: "Commercial Shifting", path: "/services/commercial-shifting" },
+    { name: "Pet Relocation", path: "/services/pet-relocation" },
+    { name: "Warehouse & Storage", path: "/services/warehouse-storage" },
+    { name: "Loading & Unloading", path: "/services/loading-unloading" }
   ];
 
   const contactOptions = [
-    { name: "Contact Us",  path: "/contact"  },
+    { name: "Contact Us", path: "/contact" },
     { name: "Branch List", path: "/branches" },
-    { name: "Careers",     path: "/careers"  }
+    { name: "Careers", path: "/careers" }
   ];
 
   // Desktop-specific contact options with Tracking at position 2
@@ -49,8 +49,8 @@ export default function Navbar() {
   ];
 
   const aboutOptions = [
-    { name: "About Us",         path: "/about"         },
-    { name: "History",          path: "/about/history" },
+    { name: "About Us", path: "/about" },
+    { name: "History", path: "/about/history" },
     { name: "Mission & Vision", path: "/about/mission" }
   ];
 
@@ -83,21 +83,16 @@ export default function Navbar() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex justify-between items-center gap-12">
         
-        {/* --- LOGO --- */}
-        <Link to="/" onClick={closeMenu} className="flex items-center gap-3 group shrink-0 mr-auto" aria-label="VRL Logistics Packers & Movers Home">
-          <div className="bg-primary p-2.5 rounded-xl text-white shadow-md group-hover:bg-secondary group-hover:scale-105 transition-all duration-300 flex-shrink-0">
-            <FaTruckMoving size={24} />
-          </div>
-          <div className="flex flex-col justify-center h-full">
-            <h1 className="flex flex-col items-start leading-none">
-              <span className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight group-hover:text-primary transition-colors">
-                VRL <span className="text-primary group-hover:text-dark">LOGISTICS</span>
-              </span>
-              <span className="text-[9px] sm:text-[10px] font-bold text-gray-500 tracking-[0.36em] uppercase mt-0.5 ml-0.5 group-hover:text-gray-700 transition-colors">
-                PACKERS & MOVERS
-              </span>
-            </h1>
-          </div>
+        {/* --- LOGO (Updated to Image) --- */}
+        <Link to="/" onClick={closeMenu} className="flex items-center shrink-0 mr-auto" aria-label="VRL Logistics Packers & Movers Home">
+          <img 
+            src="/LOGO Test-1.png" 
+            alt="VRL Logistics Packers & Movers" 
+            className="h-20 w-auto object-contain hover:opacity-90 transition-opacity"
+            width="180" 
+            height="48"
+            fetchPriority="high" // SEO Best Practice: Prioritize LCP
+          />
         </Link>
 
         {/* --- DESKTOP MENU WRAPPER (Aligned Right) --- */}
@@ -149,7 +144,6 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Removed Tracking Link from Desktop Nav */}
             <NavLink to="/gallery">Gallery</NavLink>
 
             {/* Contact Dropdown (Includes Tracking now for PC) */}
@@ -203,13 +197,13 @@ export default function Navbar() {
                     <div className="bg-red-100 text-red-600 p-2 rounded-full">
                       <FaUserShield size={14} />
                     </div>
-                    Admin Login
+                    Admin Console
                   </Link>
 
                   {/* Webmail */}
                   <a 
-                    href="/webmail" // Placeholder link
-                    //target="_blank"
+                    href="https://webmail.vrllogistic.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-yellow-50 hover:text-yellow-600 rounded-lg transition-all"
                   >
@@ -240,6 +234,7 @@ export default function Navbar() {
           onClick={() => setIsOpen(!isOpen)} 
           className="lg:hidden p-2 text-gray-600 hover:text-primary transition-colors rounded-lg focus:outline-none active:bg-gray-100 ml-auto"
           aria-label="Toggle Menu"
+          aria-expanded={isOpen}
         >
           {isOpen ? <FaTimes size={26} /> : <FaBars size={26} />}
         </button>
@@ -264,6 +259,7 @@ export default function Navbar() {
                 <button 
                   onClick={() => setMobileAboutOpen(!mobileAboutOpen)} 
                   className="w-full flex justify-between items-center p-3.5 font-bold text-gray-700 hover:text-primary transition-colors text-sm"
+                  aria-expanded={mobileAboutOpen}
                 >
                   About {mobileAboutOpen ? <FaChevronUp className="text-xs text-primary" /> : <FaChevronDown className="text-xs text-gray-400" />}
                 </button>
@@ -295,6 +291,7 @@ export default function Navbar() {
                 <button 
                   onClick={() => setMobileServicesOpen(!mobileServicesOpen)} 
                   className="w-full flex justify-between items-center p-3.5 font-bold text-gray-700 hover:text-primary transition-colors text-sm"
+                  aria-expanded={mobileServicesOpen}
                 >
                   Services {mobileServicesOpen ? <FaChevronUp className="text-xs text-primary" /> : <FaChevronDown className="text-xs text-gray-400" />}
                 </button>
@@ -324,11 +321,12 @@ export default function Navbar() {
               <Link to="/track" onClick={closeMenu} className="p-3.5 font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-sm">Tracking</Link>
               <Link to="/gallery" onClick={closeMenu} className="p-3.5 font-bold text-gray-700 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-sm">Gallery</Link>
 
-              {/* Mobile Contact Accordion - Keeps Original Order */}
+              {/* Mobile Contact Accordion */}
               <div className="rounded-xl overflow-hidden bg-gray-50/50 border border-gray-100">
                 <button 
                   onClick={() => setMobileContactOpen(!mobileContactOpen)} 
                   className="w-full flex justify-between items-center p-3.5 font-bold text-gray-700 hover:text-primary transition-colors text-sm"
+                  aria-expanded={mobileContactOpen}
                 >
                   Contact {mobileContactOpen ? <FaChevronUp className="text-xs text-primary" /> : <FaChevronDown className="text-xs text-gray-400" />}
                 </button>
@@ -363,13 +361,13 @@ export default function Navbar() {
               
               {/* Mobile Admin Login */}
               <Link to="/login" onClick={closeMenu} className="flex items-center justify-center gap-2 p-3.5 font-bold text-gray-500 hover:text-primary hover:bg-gray-50 rounded-xl transition-colors text-xs uppercase tracking-widest border border-gray-100">
-                <FaUserShield className="text-lg" /> Admin Login
+                <FaUserShield className="text-lg" /> Admin Console
               </Link>
 
               {/* Mobile Webmail Login */}
               <a 
-                href="/webmail" // Placeholder link
-                //target="_blank"
+                href="https://webmail.vrllogistic.com"
+                target="_blank"
                 rel="noopener noreferrer"
                 onClick={closeMenu}
                 className="flex items-center justify-center gap-2 p-3.5 font-bold text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 rounded-xl transition-colors text-xs uppercase tracking-widest border border-gray-100"

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaTruckMoving, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaWhatsapp, FaChevronRight } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaChevronRight } from 'react-icons/fa';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,16 +36,14 @@ export default function Footer() {
           
           {/* 1. Company Info */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="bg-primary p-2.5 rounded-xl text-white shadow-lg group-hover:bg-white group-hover:text-primary transition-all duration-300">
-                <FaTruckMoving size={24} />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black text-white leading-none tracking-tighter">
-                  VRL <span className="text-primary">LOGISTIC</span>
-                </span>
-                <span className="text-[10px] font-bold text-gray-400 tracking-[0.35em] uppercase mt-0.5">Packers & Movers</span>
-              </div>
+            <Link to="/" className="inline-block" aria-label="VRL Logistics Home">
+              <img 
+                src="/LOGO Test-1.png" 
+                alt="VRL Logistics Packers & Movers" 
+                className="h-21 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+                width="200" 
+                height="64"
+              />
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
               India's most trusted logistics partner with over 45 years of experience. We ensure safe, secure, and timely delivery of your valuables across the nation.
