@@ -10,7 +10,7 @@ export const servicesData = {
     features: [
       "Enclosed car carriers for weather protection",
       "Door-to-door pickup and delivery",
-      "Live GPS tracking of your vehicle",
+      "Robust tracking of your vehicle",
       "Comprehensive transit insurance",
       "Condition report before and after delivery"
     ]

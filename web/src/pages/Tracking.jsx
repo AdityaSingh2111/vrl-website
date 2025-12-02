@@ -103,7 +103,7 @@ export default function Tracking() {
         {/* --- SEARCH HEADER --- */}
         <div className="max-w-3xl mx-auto text-center mb-10">
           <h1 className="text-3xl md:text-5xl font-black text-dark mb-4">
-            Live <span className="text-primary">Tracking</span>
+            Consignment <span className="text-primary">Tracking</span>
           </h1>
           <p className="text-gray-500 mb-8">Enter your Consignment No. to see real-time location.</p>
 

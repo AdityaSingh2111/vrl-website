@@ -455,7 +455,7 @@ export default function Home() {
             {[
               { icon: FaCar, title: "Enclosed Car Carriers", desc: "Your vehicle is transported in sealed, weather-proof carriers ensuring 100% safety from scratches and dust." },
               { icon: FaBoxOpen, title: "Premium Packing", desc: "We use 3-layer packaging including bubble wrap, foam, and corrugated sheets for household goods." },
-              { icon: FaHeadset, title: "24/7 Live Tracking", desc: "Get round-the-clock GPS updates via WhatsApp, Email, or Phone regarding your vehicle and shipment." },
+              { icon: FaHeadset, title: "24/7 Support", desc: "Get round-the-clock updates via WhatsApp, Email, or Phone regarding your vehicle and shipment." },
             ].map((item, idx) => (
               <motion.div 
                 key={idx} 

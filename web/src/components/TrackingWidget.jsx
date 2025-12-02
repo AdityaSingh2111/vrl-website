@@ -21,7 +21,7 @@ export default function TrackingWidget() {
           <FaMapMarkerAlt className="text-3xl text-secondary" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Track Your Shipment</h3>
-        <p className="text-gray-300 text-sm">Enter your Consignment Number (e.g., VRL-1001) to see live status.</p>
+        <p className="text-gray-300 text-sm">Enter your Consignment Number (e.g., VRL-1001) to see Shipment status.</p>
       </div>
 
       <form onSubmit={handleTrack} className="space-y-4">
