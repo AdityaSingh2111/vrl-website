@@ -4,12 +4,12 @@ export default function PageBanner({ title, subtitle, breadcrumb }) {
   return (
     <div className="relative w-full">
       {/* Banner Image Section */}
-      <div className="relative h-[40vh] md:h-[50vh] w-full bg-gray-900 overflow-hidden">
+      <div className="relative h-[40vh] md:h-[51vh] w-full bg-gray-900 overflow-hidden">
         {/* Background Image - Reduced opacity for dimmer effect */}
         <img
           src="../fleet.png"
-          alt="VRL Logistics Fleet"
-          className="w-full h-full object-cover opacity-40"
+          alt="VRL Logistics Packers & Movers Fleet"
+          className="w-full h-full object-cover opacity-60"
         />
 
         {/* Dark Gradient Overlay for extra text readability */}

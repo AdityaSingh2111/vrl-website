@@ -1,27 +1,175 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageBanner from '../components/PageBanner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaPlay, FaImage, FaVideo } from 'react-icons/fa';
-
-// Mock Data for Photos
+import { FaImage, FaVideo, FaPlay } from 'react-icons/fa';
+// Data for Photos
 const PHOTOS = [
-  { src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&q=80", category: "Fleet", title: "Heavy Duty Trucks" },
-  { src: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?auto=format&fit=crop&q=80", category: "Packing", title: "Secure Box Packing" },
-  { src: "https://images.unsplash.com/photo-1534670007418-fbb7f6cf32c3?auto=format&fit=crop&q=80", category: "Warehouse", title: "Storage Facility" },
-  { src: "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?auto=format&fit=crop&q=80", category: "Transport", title: "Car Carrier" },
-  { src: "https://images.unsplash.com/photo-1565514020176-db7233e90216?auto=format&fit=crop&q=80", category: "Packing", title: "Furniture Wrapping" },
-  { src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80", category: "Warehouse", title: "Logistics Hub" },
+  {src: "/gallery/photos/pic (1).jpeg", categories: ["Bike", "Packing"], title: "Logistics Fleet" },
+  { src: "/gallery/photos/pic (2).jpeg", categories: ["Car"], title: "Secure Packing" },
+  { src: "/gallery/photos/pic (3).jpeg", categories: ["Warehouse", "Packing"], title: "Modern Warehouse" },
+  { src: "/gallery/photos/pic (4).jpeg", categories: ["Packing", "Transport"], title: "On the Move" },
+  {src: "/gallery/photos/pic (5).jpeg", categories: ["Car"], title: "Delivery Trucks" },
+  { src: "/gallery/photos/pic (6).jpeg", categories: ["Packing", "Transport"], title: "Fragile Items" },
+  { src: "/gallery/photos/pic (7).jpeg", categories: ["Car"], title: "Storage Solutions" },
+  { src: "/gallery/photos/pic (8).jpeg", categories: ["Transport", "Car"], title: "Logistics in Action" },
+  { src: "/gallery/photos/pic (9).jpeg", categories: ["Car", "Transport"], title: "Cargo Vans" },
+  { src: "/gallery/photos/pic (10).jpeg", categories: ["Car", "Transport"], title: "Efficient Packing" },
+  { src: "/gallery/photos/pic (11).jpeg", categories: ["Car", "Transport"], title: "Inventory Management" },
+  { src: "/gallery/photos/pic (12).jpeg", categories: ["Car", "Transport"], title: "Long Haul Trucks" },
+  { src: "/gallery/photos/pic (13).jpeg", categories: ["Transport"], title: "Logistics Team" },
+  { src: "/gallery/photos/pic (14).jpeg", categories: ["Packing"], title: "Professional Packers" },
+  { src: "/gallery/photos/pic (15).jpeg", categories: ["Packing"], title: "Loading Dock" },
+  { src: "/gallery/photos/pic (16).jpeg", categories: ["Packing"], title: "Freight Transport" },
+  { src: "/gallery/photos/pic (17).jpeg", categories: ["Bike"], title: "Logistics Operations" },
+  { src: "/gallery/photos/pic (18).jpeg", categories: ["Car"], title: "Packing Materials" },
+  { src: "/gallery/photos/pic (19).jpeg", categories: ["Car"], title: "Warehouse Staff" },
+  { src: "/gallery/photos/pic (20).jpeg", categories: ["Car"], title: "Efficient Delivery" },
+  { src: "/gallery/photos/pic (21).jpeg", categories: ["Bike","Warehouse"], title: "Fleet Maintenance" },
+  { src: "/gallery/photos/pic (22).jpeg", categories: ["Bike", "Warehouse"], title: "Careful Handling" },
+  { src: "/gallery/photos/pic (23).jpeg", categories: ["Bike", "Warehouse"], title: "Organized Storage" },
+  { src: "/gallery/photos/pic (24).jpeg", categories: ["Bike", "Warehouse"], title: "Timely Deliveries" },
+  { src: "/gallery/photos/pic (25).jpeg", categories: ["Bike", "Warehouse"], title: "Logistics Network" },
+  { src: "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?auto=format&fit=crop&q=80", categories: ["Transport"], title: "Car Carrier" },
+  { src: "https://images.unsplash.com/photo-1663625318264-695d2d04f11a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", categories: ["Packing"], title: "Household Goods" },
+  { src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80", categories: ["Warehouse"], title: "Logistics Hub" },
+  {src: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", categories: ["Warehouse"], title: "Storage facility" },
+  
 ];
-
-// Mock Data for Videos (Using YouTube Thumbnails/IDs)
+// Data for Videos
 const VIDEOS = [
-  { id: "dQw4w9WgXcQ", title: "VRL Corporate Video", thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg" },
-  { id: "engt853tqew", title: "How We Pack Your Goods", thumb: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&q=80" }, // Placeholder thumb
-  { id: "3tmd-ClpJxA", title: "Customer Testimonials", thumb: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80" },
+  { 
+    id: "v1", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (1).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v2", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (2).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v3", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (3).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v4", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (4).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v5", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (5).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v6", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (6).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v7", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (7).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  { 
+    id: "v8", 
+    title: "VRL Logistics Overview", 
+    src: "/gallery/videos/vid (8).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  {
+    id: "v9",
+    title: "VRL Logistics Overview",
+    src: "/gallery/videos/vid (9).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  {
+    id: "v10",
+    title: "VRL Logistics Overview",
+    src: "/gallery/videos/vid (10).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
+  {
+    id: "v11",
+    title: "VRL Logistics Overview",
+    src: "/gallery/videos/vid (11).mp4", 
+    //thumb: "/gallery/video1-thumb.jpg", // Optional: Thumbnail image
+    desc: "A glimpse into our daily operations and fleet management."
+  },
 ];
 
-const CATEGORIES = ["All", "Fleet", "Packing", "Warehouse", "Transport"];
+const CATEGORIES = ["All","Car", "Packing", "Bike", "Transport", "Warehouse"];
+
+// --- VIDEO PLAYER COMPONENT ---
+const VideoCard = ({ video }) => {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handlePlayToggle = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <div className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all">
+      <div className="relative aspect-video bg-black cursor-pointer" onClick={handlePlayToggle}>
+        <video 
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          src={`${video.src}#t=0.1`} // Start slightly into the video to avoid black frame
+          preload="metadata" // Preload metadata for quick loading
+          playsInline
+          controls={isPlaying} // Only show native controls when playing
+          onPause={() => setIsPlaying(false)}
+          onPlay={() => setIsPlaying(true)}
+        >
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Custom Play Button Overlay */}
+        {!isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors z-10">
+            <button 
+              className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border-2 border-white group-hover:scale-110 transition-transform shadow-lg"
+              aria-label="Play Video"
+            >
+              <FaPlay className="ml-1 text-2xl" />
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="p-5">
+        <h3 className="font-bold text-gray-800 text-lg mb-2 line-clamp-1">{video.title}</h3>
+        <p className="text-gray-500 text-sm">{video.desc}</p>
+      </div>
+    </div>
+  );
+};
 
 export default function Gallery() {
   const [activeTab, setActiveTab] = useState("photos"); // 'photos' or 'videos'
@@ -29,7 +177,7 @@ export default function Gallery() {
 
   const filteredPhotos = activeCat === "All" 
     ? PHOTOS 
-    : PHOTOS.filter(img => img.category === activeCat);
+    : PHOTOS.filter(img => img.categories.includes(activeCat));
 
   // JSON-LD Schema for SEO
   const schemaData = {
@@ -108,10 +256,10 @@ export default function Gallery() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               <AnimatePresence>
-                {filteredPhotos.map((img) => (
+                {filteredPhotos.map((img, idx) => (
                   <motion.div
                     layout
-                    key={img.src}
+                    key={idx}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
@@ -122,11 +270,12 @@ export default function Gallery() {
                       src={img.src} 
                       alt={`${img.title} - VRL Logistics`} 
                       loading="lazy"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'; }} // Fallback
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                       <div>
-                        <p className="text-secondary text-[10px] font-bold uppercase tracking-widest mb-1">{img.category}</p>
+                        <p className="text-secondary text-[10px] font-bold uppercase tracking-widest mb-1">{img.categories.join(" / ")}</p>
                         <h4 className="text-white text-lg font-bold leading-tight">{img.title}</h4>
                       </div>
                     </div>
@@ -150,28 +299,7 @@ export default function Gallery() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {VIDEOS.map((video, idx) => (
-              <div key={idx} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all">
-                <div className="relative aspect-video bg-black">
-                  <img 
-                    src={video.thumb} 
-                    alt={video.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover opacity-80 group-hover:opacity-60 transition-opacity"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <button className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white border-2 border-white group-hover:scale-110 transition-transform">
-                      <FaPlay className="ml-1 text-xl" />
-                    </button>
-                  </div>
-                  <span className="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded">
-                    Watch Video
-                  </span>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-gray-800 text-lg mb-2 line-clamp-1">{video.title}</h3>
-                  <p className="text-gray-500 text-sm">Watch how VRL Logistics ensures safe delivery standards.</p>
-                </div>
-              </div>
+              <VideoCard key={idx} video={video} />
             ))}
           </motion.div>
         )}
