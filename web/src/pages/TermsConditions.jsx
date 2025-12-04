@@ -125,7 +125,7 @@ export default function TermsConditions() {
                    <ul className="list-disc pl-5 mt-2 space-y-1 text-sm">
                       <li><strong>&gt; 24 Hours Prior:</strong> No Charge.</li>
                       <li><strong>&lt; 24 Hours Prior:</strong> Cancellation charges apply.</li>
-                      <li><strong>After Vehicle Arrival:</strong> Visiting and transport charges apply.</li>
+                      <li><strong>After Vehicle/ Pickup Person Arrival:</strong> Visiting and transport charges apply.</li>
                       <li><strong>After Loading:</strong> 50% of bill amount charged.</li>
                       <li><strong>After Dispatch:</strong> No cancellation or refund permitted.</li>
                    </ul>
